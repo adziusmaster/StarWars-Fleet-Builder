@@ -4,11 +4,11 @@ import { ShipInFleet } from "../../App";
 
 export type Ship = {
   name: string;
-  model: string | null;
-  cost_in_credits: string | null;
+  model: string;
+  cost_in_credits: string;
   url: string;
-  crew: string | null;
-  passengers: string | null;
+  crew: string;
+  passengers: string;
 };
 
 export type ShipState = {

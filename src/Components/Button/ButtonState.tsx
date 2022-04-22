@@ -5,3 +5,11 @@ export type ButtonProps = {
   hidden?: boolean;
   form?: string;
 };
+
+export type ButtonWithStringProps = {
+  key: string;
+  onClick: () => (string: string) => void;
+  buttontext: string;
+  hidden?: boolean;
+  form?: string;
+};
