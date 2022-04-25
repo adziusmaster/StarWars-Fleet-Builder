@@ -1,4 +1,4 @@
-import { ButtonProps, ButtonWithStringProps } from "./ButtonState";
+import { ButtonWithStringProps } from "./ButtonState";
 
 const ButtonWithStringWidget = (props: ButtonWithStringProps) => (
   <>

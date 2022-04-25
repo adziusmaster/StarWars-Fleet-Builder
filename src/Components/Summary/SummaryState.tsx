@@ -7,4 +7,5 @@ export type SummaryProps = {
   resetFleet: () => void;
   removeOneShip: (selectedShip: ShipInFleet) => void;
   changeAmountOfOneShip: (selectedShip: ShipInFleet) => void;
+  className?: string;
 };

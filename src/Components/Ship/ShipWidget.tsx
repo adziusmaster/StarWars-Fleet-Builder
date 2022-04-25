@@ -15,8 +15,8 @@ const handleOnChange = (ships: Ship[], x?: string) => {
 };
 
 const ShipSelector = (props: ShipProps): JSX.Element =>
-  stateful<ShipState>()((s0) =>
-    any<Action<ShipState>>()([
+  stateful<ShipState>({ key: "dontfuckme" })((s0) =>
+    any<Action<ShipState>>({ key: "fuckme" })([
       async<Ship[]>()(s0.ship).map((a) => (s1) => ({
         ...s1,
         ship: a(s1.ship),
@@ -34,7 +34,9 @@ const ShipSelector = (props: ShipProps): JSX.Element =>
           return (
             <>
               <select
-                key="SELECT"
+                className="form-select"
+                size={"123456".length}
+                aria-label="size 6 select example"
                 defaultValue={"none"}
                 onChange={(e) =>
                   props.onChange(
@@ -42,7 +44,7 @@ const ShipSelector = (props: ShipProps): JSX.Element =>
                   )
                 }
               >
-                <option value="none" key="disabledOption" disabled>
+                <option selected value="none" disabled>
                   Choose a ship
                 </option>
                 {s0.ship.value.map((ship) => (
@@ -60,6 +62,14 @@ const ShipSelector = (props: ShipProps): JSX.Element =>
           if (oldValue === newValue) {
             return (
               <>
+                <div className="alert alert-warning" role="alert">
+                  You already have{" "}
+                  <span className="badge bg-warning text-dark">{oldValue}</span>{" "}
+                  of{" "}
+                  <span className="badge bg-warning text-dark">
+                    {props.selectedShip?.name}
+                  </span>
+                </div>
                 <span key="selectedShip">
                   You already have {oldValue} of {props.selectedShip?.name}!
                 </span>
@@ -68,8 +78,16 @@ const ShipSelector = (props: ShipProps): JSX.Element =>
           }
           return (
             <>
+              <div className="alert alert-success" role="alert">
+                Now you will have{" "}
+                <span className="badge bg-success text-dark">{oldValue}</span>{" "}
+                of{" "}
+                <span className="badge bg-success text-dark">
+                  {props.selectedShip?.name}
+                </span>
+              </div>
               <span key="selectedShip">
-                Now you will have {props.amount} of {props.selectedShip?.name}!
+                You already have {oldValue} of {props.selectedShip?.name}!
               </span>
             </>
           );
@@ -78,9 +96,13 @@ const ShipSelector = (props: ShipProps): JSX.Element =>
         if (props.isSelected && s0.ship.kind === "loaded")
           return (
             <>
-              <span key="selectedShip">
-                You will get {props.amount} of {props.selectedShip?.name}
-              </span>
+              <div className="alert alert-primary" role="alert">
+                You will get{" "}
+                <span className="badge bg-primary">{props.amount}</span> of{" "}
+                <span className="badge bg-primary">
+                  {props.selectedShip?.name}
+                </span>
+              </div>
             </>
           );
         return (

@@ -1,6 +1,6 @@
-import { ButtonProps } from "./ButtonState";
+import { ButtonDefaultProps } from "./ButtonState";
 
-const ButtonWidget = (props: ButtonProps) => (
+const ButtonWidget = (props: ButtonDefaultProps) => (
   <>
     <button {...props}>{props.buttontext}</button>
   </>

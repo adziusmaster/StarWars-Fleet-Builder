@@ -1,15 +1,15 @@
-export type ButtonProps = {
+type ButtonProps = {
   key: string;
-  onClick: () => void;
   buttontext: string;
   hidden?: boolean;
   form?: string;
+  className?: string;
 };
 
-export type ButtonWithStringProps = {
-  key: string;
+export type ButtonDefaultProps = ButtonProps & {
+  onClick: () => void;
+};
+
+export type ButtonWithStringProps = ButtonProps & {
   onClick: () => (string: string) => void;
-  buttontext: string;
-  hidden?: boolean;
-  form?: string;
 };

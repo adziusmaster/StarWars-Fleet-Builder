@@ -22,6 +22,7 @@ export type AppState = {
   fleet: List<ShipInFleet>;
   shipAlreadyInFleet?: boolean;
   fleetBuilt: boolean;
+  nameEmpty: boolean;
 };
 
 const Decrementer: Action<AppState> = (state: AppState) =>
@@ -56,10 +57,19 @@ const FleetNameChanger: Fun<
   },
 });
 
-const FleetNameSaver: Action<AppState> = (state: AppState) => ({
-  ...state,
-  nameChoosen: true,
-});
+const FleetNameSaver: Action<AppState> = (state: AppState) => {
+  if (state.data.title === "") {
+    return {
+      ...state,
+      nameEmpty: true,
+    };
+  }
+  return {
+    ...state,
+    nameEmpty: false,
+    nameChoosen: true,
+  };
+};
 
 const HandleShipChange: Fun<Ship, Action<AppState>> =
   (selectedShip: Ship) => (state: AppState) => {
@@ -159,6 +169,7 @@ const ResetFleet: Action<AppState> = (state: AppState) => ({
     value: 0,
   },
   nameChoosen: false,
+  nameEmpty: false,
   fleet: List<ShipInFleet>(),
   fleetBuilt: false,
   selectedShip: undefined,
@@ -201,14 +212,10 @@ const App = (): JSX.Element =>
             {!s0.nameChoosen ? (
               <>
                 {InputWidget({
-                  titlePlaceholder: "Name your fleet",
+                  titlePlaceholder: "The name of your new fleet",
                   onChange: (e) => setState((s0) => FleetNameChanger(e)(s0)),
-                })}
-                {ButtonWidget({
-                  key: "save name",
                   onClick: () => setState((s0) => FleetNameSaver(s0)),
-                  buttontext: "save name",
-                  hidden: s0.data.title.length === 0,
+                  nameEmpty: s0.nameEmpty,
                 })}
               </>
             ) : (
@@ -234,6 +241,7 @@ const App = (): JSX.Element =>
                       onClick: () => setState((s0) => Incrementer(s0)),
                       buttontext: "increment",
                       hidden: s0.selectedShip === undefined,
+                      className: "btn btn-primary",
                     })}
                     {ButtonWidget({
                       key: "decrement",
@@ -241,6 +249,7 @@ const App = (): JSX.Element =>
                       buttontext: "decrement",
                       hidden:
                         s0.selectedShip === undefined || s0.data.value === 0,
+                      className: "btn btn-danger",
                     })}
                     {ButtonWidget({
                       key: "choose another ship",
@@ -248,12 +257,14 @@ const App = (): JSX.Element =>
                       buttontext: "choose another ship",
                       hidden:
                         s0.selectedShip === undefined && !s0.shipAlreadyInFleet,
+                      className: "btn btn-warning",
                     })}
                     {ButtonWidget({
                       key: "save ship",
                       onClick: () => setState((s0) => ShipSaver(s0)),
                       buttontext: "save ship",
                       hidden: s0.data.value === 0 && s0.data.value === 0,
+                      className: "btn btn-info",
                     })}
                     {SummaryWidget({
                       shipList: s0.fleet,
@@ -270,6 +281,7 @@ const App = (): JSX.Element =>
                           key: "build fleet",
                           onClick: () => setState((s0) => FleetBuilder(s0)),
                           buttontext: "build fleet!",
+                          className: "btn btn-success",
                         })}
                       </>
                     ) : (
@@ -297,6 +309,7 @@ const App = (): JSX.Element =>
                       onClick: () => setState((s0) => Incrementer(s0)),
                       buttontext: "increment",
                       hidden: s0.selectedShip === undefined,
+                      className: "btn btn-primary",
                     })}
                     {ButtonWidget({
                       key: "decrement",
@@ -304,6 +317,7 @@ const App = (): JSX.Element =>
                       buttontext: "decrement",
                       hidden:
                         s0.selectedShip === undefined || s0.data.value === 0,
+                      className: "btn btn-danger",
                     })}
                     {ButtonWidget({
                       key: "remove this ship!",
@@ -311,12 +325,16 @@ const App = (): JSX.Element =>
                       buttontext: "remove this ship!",
                       hidden:
                         s0.selectedShip === undefined || s0.data.value === 0,
+
+                      className: "btn btn-warning",
                     })}
                     {ButtonWidget({
                       key: "save",
                       onClick: () => setState((s0) => ShipSaver(s0)),
                       buttontext: "save",
                       hidden: s0.selectedShip === undefined,
+
+                      className: "btn btn-info",
                     })}
                     {SummaryWidget({
                       shipList: s0.fleet,
@@ -353,6 +371,7 @@ const App = (): JSX.Element =>
       title: "",
     },
     nameChoosen: false,
+    nameEmpty: false,
     fleet: List<ShipInFleet>(),
     fleetBuilt: false,
   }).run((s0) => s0);

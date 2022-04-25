@@ -27,51 +27,82 @@ const SummaryWidget = (props: SummaryProps) => {
     <>
       {!props.fleetBuilt ? (
         <>
-          {ships.length > 0 ? (
-            <ul>
-              {ships.map((ship) => (
-                <li key={ship.ship?.url}>
-                  You got: {ship.amount} of {ship.ship?.name}
-                  {ButtonWidget({
-                    buttontext: "remove this ship!",
-                    key: "remove this ship!",
-                    onClick: () => props.removeOneShip(ship),
-                  })}
-                  {ButtonWidget({
-                    buttontext: "change the amount",
-                    key: "change the amount",
-                    onClick: () => props.changeAmountOfOneShip(ship),
-                  })}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <></>
-          )}
+          <nav className="navbar navbar-light bg-light">
+            <div className="container-fluid">
+              <a className="navbar-brand" href="#">
+                <img
+                  src="../../../public/starwarsicon.png"
+                  alt=""
+                  className="d-inline-block align-text-top"
+                />
+                Currently in your fleet:
+              </a>
+            </div>
+          </nav>
+          <ul className="list-group">
+            {ships.map((ship) => (
+              <li
+                key={ship.ship?.url}
+                className="list-group-item d-flex justify-content-between align-items-center"
+              >
+                {ship.ship?.name}
+                {ButtonWidget({
+                  buttontext: "remove this ship!",
+                  key: "remove this ship!",
+                  onClick: () => props.removeOneShip(ship),
+                  className: "btn btn-danger",
+                })}
+                {ButtonWidget({
+                  buttontext: "change the amount",
+                  key: "change the amount",
+                  onClick: () => props.changeAmountOfOneShip(ship),
+                  className: "btn btn-secondary",
+                })}
+                <span className="badge bg-primary rounded-pill">
+                  {ship.amount}{" "}
+                </span>
+              </li>
+            ))}
+          </ul>
         </>
       ) : (
         <>
-          {ships.length > 0 ? (
+          {ships.length > 0 && (
             <>
-              <ul>
+              <ol className="list-group list-group-numbered">
                 {ships.map((ship) => (
-                  <li key={ship.ship?.url}>
-                    You got: {ship.amount} of {ship.ship?.name}{" "}
+                  <li
+                    key={ship.ship?.url}
+                    className="list-group-item d-flex justify-content-between align-items-start"
+                  >
+                    <div className="ms-2 me-auto">
+                      <div className="fw-bold">{ship.ship?.name}</div>
+                      Model: {ship.ship?.model}
+                    </div>
+                    <span className="badge bg-primary rounded-pill">
+                      amount: {ship.amount}
+                    </span>
                   </li>
                 ))}
-              </ul>
-              <span>You will need {totalCrew} of Crew</span>
-              <br></br>
-              <span>You can transport {totalPassengers} of Passengers</span>
-              <br></br>
+              </ol>
+              <div className="alert alert-success" role="alert">
+                <span className="badge bg-warning text-dark">
+                  You will need {totalCrew} of Crew
+                </span>
+                <br></br>
+                <span className="badge bg-info text-dark">
+                  You can transport {totalPassengers} of Passengers
+                </span>
+                <br></br>
+              </div>
+
               {ButtonWidget({
                 buttontext: "build new fleet!",
                 key: "build new fleet!",
                 onClick: props.resetFleet,
+                className: "btn btn-primary",
               })}
             </>
-          ) : (
-            <></>
           )}
         </>
       )}

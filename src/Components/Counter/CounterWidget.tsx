@@ -2,12 +2,13 @@ import { CounterProps } from "./CounterState";
 
 const CounterWidget = (props: CounterProps) => (
   <>
-    <span>Name of your Fleet: {props.title}</span>
-    <br></br>
-    <span {...props}>
-      {"  "}
-      {"  "}
-    </span>
+    <nav className="navbar navbar-light bg-light">
+      <div className="container-fluid">
+        <span className="navbar-brand mb-0 h1">
+          Name of your Fleet: {props.title}
+        </span>
+      </div>
+    </nav>
   </>
 );
 
